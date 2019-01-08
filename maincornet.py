@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #-*- coding:utf-8 -*-
-from classfuncs import *
+from clasesfuncs import *
 import random as rm
 import numpy as np
 import matplotlib.pyplot as plt
