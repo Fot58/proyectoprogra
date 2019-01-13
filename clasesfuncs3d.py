@@ -8,7 +8,12 @@ import numpy as np
 #densidad=3132.375 promedio de los planetas del sistema solar
 #modificar listas por generadores, compresion de listas, etc... (tambien en main)
 #Crear clase estrella
+#Variables globales
 
+G=-6.674e-11 #en mks
+conversionm_a_ua=(1.0/149597870700)
+conversions_a_a=3600*24*365
+G_ua_anio=G*(conversions_a_a**3)*((3600*24*365)**2)
 #CREACIÓN DE CLASE DE CUERPO
 class cuerpo:
 	#m masa (acepta float) [kg], v velocidad (acepta lista, origen en el cuerpo en si, definida cartesiana) [ua/año], p posición (acepta lista, definida de forma cartesiana) [ua]
@@ -110,7 +115,8 @@ def Range(f,i=0,p=1):
 		i+=p
 
 def energia_potencial(p,cuerpitos,n):
-	G=-1.9812727537285508e-29
+	global G_ua_anio
+	G=G_ua_anio
 	potencial=0.0
 	for i in Range(n):
 		for j in Range(n):
@@ -190,7 +196,8 @@ def choques(paraunirtotal,cuerpitos):
 def evaluar_diff(p,v,m,n):
 	#función que evalua la diferencial principal. p y v listas de listas, m solo lista, n natural
 	evalua=np.array([vector]*n)
-	G=-1.9812727537285508e-29
+	global G_ua_anio
+	G=G_ua_anio
 	#d=0.0003342293561134223
 	for i in Range(n):
 		for j in Range(n):
@@ -281,25 +288,25 @@ def rka(p,v,tiempo_actual,tau,m,n,pasomaximo):
 					ratiov=eps
 				errores.append(ratiox)
 				errores.append(ratiov)
-		ratio=max(errores)
+			ratio=max(errores)
 				#if erroRatiox <= ratiox :
 				#	erroRatiox=ratiox
 		
 	# Estimamos el nuevo valor de tau (incluyendo factores de seguridad)
-		tau_ant= tau
-		print "ratio"+str(ratio)
-		tau = safe1*tau_ant*pow(ratio,-0.20)
-		if tau < tau_ant/safe2 :
-			tau=tau_ant/safe2
-		elif tau > safe2*tau_ant :
-			tau=safe2*tau_ant
-		else:
-			tau=tau
-		if tau>pasomaximo:
-			tau=pasomaximo
-	# Si el error es aceptable regrese los valores computados
-		if ratiox < 1 :
-			return xSmall,vSmall,tiempo_actual+tau,tau 
+			tau_ant= tau
+			print "ratio"+str(ratio)
+			tau = safe1*tau_ant*pow(ratio,-0.20)
+			if tau < tau_ant/safe2 :
+				tau=tau_ant/safe2
+			elif tau > safe2*tau_ant :
+				tau=safe2*tau_ant
+			else:
+				tau=tau
+			if tau>pasomaximo:
+				tau=pasomaximo
+		# Si el error es aceptable regrese los valores computados
+			if ratio < 1 :
+				return xSmall,vSmall,tiempo_actual+tau,tau 
 
 #numpy.array( [xSmall[0],xSmall[1],xSmall[2],xSmall[3], tiempo, tau] )
 	else:
