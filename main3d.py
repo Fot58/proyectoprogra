@@ -1,6 +1,8 @@
 #!/usr/bin/python
 #-*- coding:utf-8 -*-
 import matplotlib.pyplot as plt
+import mpl_toolkits.mplot3d.axes3d as p3
+import matplotlib.animation as animation
 from clasesfuncs3d import *
 import random as rm
 import numpy as np
